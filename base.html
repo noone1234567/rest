@@ -1,24 +1,33 @@
-﻿<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <title>{{title}}</title>
-</head>
-  <body>
-    <header>
-      <nav class="navbar navbar-light bg-light">
-       <a class="navbar-brand" href="/registration">Зарегистрироваться</a>
-       {% if "username" in session %}
-         <a class="navbar-brand" href="/logout">{{session['username']}}</a>
-       {% endif %}
-        <a class="navbar-brand" href="#">Наше приложение</a>
-</nav>
-    </header>
-    <!-- Begin page content -->
-    <main role="main" class="container">
-        {% block content %}{% endblock %}
-    </main>
-  </body>
-</html> 
+{% extends "main.html" %}
+{% block content %}
+
+{% for item in data %}
+    <div class="alert alert-dark" role="alert">
+        <a href="/news/{{item[0]}}">{{item[1]}}</a>
+    </div>
+{% endfor %}
+{% if add %}
+<form action="" method="post" novalidate>
+        {{ form.hidden_tag() }}
+        <p>
+            {{ form.title.label }}<br>
+            {{ form.title }}<br>
+            {% for error in form.title.errors %}
+                <div class="alert alert-danger" role="alert">
+                    {{ error }}
+                </div>
+            {% endfor %}
+        </p>
+        <p>
+            {{ form.text.label }}<br>
+            {{ form.text }}<br>
+            {% for error in form.text.errors %}
+                <div class="alert alert-danger" role="alert">
+                    {{ error }}
+                </div>
+            {% endfor %}
+        </p>
+        <p>{{ form.submit() }}</p>
+    </form>
+{% endif %}
+{% endblock %}
